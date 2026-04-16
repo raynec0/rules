@@ -2,7 +2,7 @@
 #!desc=PingMe 抓参 + 签到；先打开 App 抓参，抓到后再手动运行或等定时
 #!author=OpenAI
 #!homepage=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/refs/heads/main/PingMe.js
-#!icon=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Ping.png
+#!icon=https://raw.githubusercontent.com/raynec0/rules/blob/main/PingMe_Logo.png
 
 [Script]
 http-request ^https:\/\/api\.pingmeapp\.net\/app\/queryBalanceAndBonus script-path=PingMe_Loon.js, tag=PingMe抓参, requires-body=false, timeout=60, enabled=true
