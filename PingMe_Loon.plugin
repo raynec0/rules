@@ -1,6 +1,6 @@
 [Script]
-http-request ^https:\/\/api\.pingmeapp\.net\/app\/queryBalanceAndBonus script-path=https://raw.githubusercontent.com/raynec0/rules/refs/heads/main/PingMe_Loon.js, tag=PingMe抓参, requires-body=false, timeout=60, enabled=true
-cron "30 8,20 * * *" script-path=https://raw.githubusercontent.com/raynec0/rules/refs/heads/main/PingMe_Loon.js, tag=PingMe签到, timeout=120, enabled=true
+http-request ^https:\/\/api\.pingmeapp\.net\/app\/queryBalanceAndBonus script-path=PingMe_Loon.js, tag=PingMe抓参, requires-body=false, timeout=60
+cron "30 8,20 * * *" script-path=PingMe_Loon.js, tag=PingMe签到
 
-[MITM]
+[MitM]
 hostname = api.pingmeapp.net
