@@ -1,4 +1,4 @@
-#!name=PingMe(Loon)-Fixed
+#!name=PingMe(Loon)
 #!desc=PingMe 抓参 + 签到；先打开 App 抓参，抓到后再手动运行或等定时
 #!author=OpenAI
 #!homepage=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/refs/heads/main/PingMe.js
