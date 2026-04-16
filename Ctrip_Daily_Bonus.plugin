@@ -1,0 +1,9 @@
+#!name=Ctrip Daily Bonus
+#!desc=Ctrip auth capture + daily task for Loon
+
+[Script]
+http-request ^https:\/\/m\.ctrip\.com\/restapi\/soa2\/14946\/json\/userBaseInfo script-path=https://raw.githubusercontent.com/NobyDa/Script/refs/heads/master/Ctrip-DailyBonus/Ctrip.js, tag=携程获取Auth
+cron "0 9 * * *" script-path=https://raw.githubusercontent.com/NobyDa/Script/refs/heads/master/Ctrip-DailyBonus/Ctrip.js, tag=携程签到
+
+[MITM]
+hostname = m.ctrip.com
