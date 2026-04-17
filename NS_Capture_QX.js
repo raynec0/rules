@@ -1,55 +1,62 @@
-// ==NS Capture All for QX==
-// Handles:
-// 1. request headers -> NS_NodeseekHeaders
-// 2. response body -> NS_AccountInfo + NS_AccountRaw
+// ==NS Capture All for QX (FINAL)==
 
 const NS_HEADER_KEY = "NS_NodeseekHeaders";
 const NS_ACCOUNT_KEY = "NS_AccountInfo";
 const NS_ACCOUNT_RAW_KEY = "NS_AccountRaw";
 
-// ---------- HEADER CAPTURE ----------
+// ========= HEADER CAPTURE =========
 if (typeof $request !== "undefined") {
   try {
     const headers = $request.headers || {};
-    $persistentStore.write(JSON.stringify(headers), NS_HEADER_KEY);
+
+    // only save useful headers (avoid junk)
+    const filtered = {
+      "User-Agent": headers["User-Agent"],
+      "Cookie": headers["Cookie"],
+      "Origin": headers["Origin"],
+      "Referer": headers["Referer"],
+      "Accept": headers["Accept"],
+      "Accept-Language": headers["Accept-Language"],
+      "Content-Type": headers["Content-Type"],
+      "refract-key": headers["refract-key"],
+      "refract-sign": headers["refract-sign"]
+    };
+
+    $persistentStore.write(JSON.stringify(filtered), NS_HEADER_KEY);
     console.log("[NS] headers saved");
+
   } catch (e) {
     console.log("[NS] header save failed: " + e);
   }
+
   $done({});
   return;
 }
 
-// ---------- RESPONSE CAPTURE ----------
+// ========= RESPONSE CAPTURE =========
 function safeParse(text) {
-  try {
-    return JSON.parse(text);
-  } catch (e) {
-    return null;
-  }
+  try { return JSON.parse(text); } catch { return null; }
 }
 
 function findFirstDeep(obj, keys) {
   if (!obj || typeof obj !== "object") return "";
+
   const wanted = new Set(keys.map(k => k.toLowerCase()));
   const queue = [obj];
-  const seen = new Set();
 
   while (queue.length) {
     const cur = queue.shift();
-    if (!cur || typeof cur !== "object" || seen.has(cur)) continue;
-    seen.add(cur);
+    if (!cur || typeof cur !== "object") continue;
 
     for (const [k, v] of Object.entries(cur)) {
       if (
-        wanted.has(String(k).toLowerCase()) &&
+        wanted.has(k.toLowerCase()) &&
         v !== null &&
-        v !== undefined &&
         String(v).trim() !== ""
       ) {
         return String(v).trim();
       }
-      if (v && typeof v === "object") queue.push(v);
+      if (typeof v === "object") queue.push(v);
     }
   }
   return "";
