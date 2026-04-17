@@ -1,4 +1,4 @@
-// ==NS Checkin QX (FINAL)==
+// ==NS Checkin QX (FIXED)==
 
 const NS_HEADER_KEY = "NS_NodeseekHeaders";
 const NS_LAST_RESULT = "NS_LastResult";
@@ -9,10 +9,10 @@ function formatTime(d) {
 }
 
 function saveResult(obj) {
-  $persistentStore.write(JSON.stringify(obj), NS_LAST_RESULT);
+  $prefs.setValueForKey(JSON.stringify(obj), NS_LAST_RESULT);
 }
 
-const raw = $persistentStore.read(NS_HEADER_KEY);
+const raw = $prefs.valueForKey(NS_HEADER_KEY);
 
 if (!raw) {
   saveResult({
@@ -21,7 +21,7 @@ if (!raw) {
     message: "Open NodeSeek once while logged in"
   });
 
-  $notification.post("NodeSeek", "Check-in failed", "Missing headers");
+  $notify("NodeSeek", "Check-in Failed", "Missing headers");
   $done();
   return;
 }
@@ -39,71 +39,71 @@ headers["User-Agent"] ||= "Mozilla/5.0";
 headers["Accept"] ||= "*/*";
 headers["Content-Type"] ||= "text/plain;charset=UTF-8";
 
-$httpClient.post(
-  {
-    url: "https://www.nodeseek.com/api/attendance?random=true",
-    headers,
-    body: "",
-    timeout: 10
-  },
-  (error, response, data) => {
-    const now = formatTime(new Date());
-    const body = String(data || "");
-    const status = response?.status || 0;
+$task.fetch({
+  url: "https://www.nodeseek.com/api/attendance?random=true",
+  method: "POST",
+  headers: headers,
+  body: ""
+}).then(response => {
 
-    let msg = "";
-    try {
-      msg = JSON.parse(body)?.message || "";
-    } catch {}
+  const now = formatTime(new Date());
+  const body = response.body || "";
+  const status = response.statusCode;
 
-    // network error
-    if (error) {
-      saveResult({
-        time: now,
-        statusText: "❌ Request error",
-        message: String(error)
-      });
+  let msg = "";
+  try {
+    msg = JSON.parse(body)?.message || "";
+  } catch {}
 
-      $notification.post("NodeSeek", "Error", String(error));
-      return $done();
-    }
+  // Cloudflare block
+  if (body.includes("Just a moment") || body.includes("<!DOCTYPE html")) {
+    saveResult({
+      time: now,
+      statusText: "⚠️ Cloudflare",
+      message: "Blocked by CF"
+    });
 
-    // cloudflare block
-    if (body.includes("Just a moment") || body.includes("<!DOCTYPE html")) {
-      saveResult({
-        time: now,
-        statusText: "⚠️ Cloudflare",
-        message: "Blocked by CF"
-      });
+    $notify("NodeSeek", "Blocked", "Cloudflare");
+    return;
+  }
 
-      $notification.post("NodeSeek", "Blocked", "Cloudflare");
-      return $done();
-    }
-
-    // success
-    if (status >= 200 && status < 300) {
-      const final = msg || "Check-in success";
-
-      saveResult({
-        time: now,
-        statusText: "✅ Success",
-        message: final
-      });
-
-      $notification.post("NodeSeek", "Success", final);
-      return $done();
-    }
-
-    // fail
-    const final = msg || body || `HTTP ${status}`;
+  // success
+  if (status >= 200 && status < 300) {
+    const final = msg || "Check-in success";
 
     saveResult({
       time: now,
-      statusText: "⚠️ Failed",
+      statusText: "✅ Success",
       message: final
     });
 
-    $notification.post("NodeSeek", "Failed", final);
-    $done();
+    $notify("NodeSeek", "Success", final);
+    return;
   }
-);
+
+  // fail
+  const final = msg || body || `HTTP ${status}`;
+
+  saveResult({
+    time: now,
+    statusText: "⚠️ Failed",
+    message: final
+  });
+
+  $notify("NodeSeek", "Failed", final);
+
+}, reason => {
+
+  const now = formatTime(new Date());
+
+  saveResult({
+    time: now,
+    statusText: "❌ Request error",
+    message: String(reason)
+  });
+
+  $notify("NodeSeek", "Error", String(reason));
+
+}).finally(() => {
+  $done();
+});
