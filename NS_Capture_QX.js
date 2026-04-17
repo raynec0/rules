@@ -9,7 +9,6 @@ if (typeof $request !== "undefined") {
   try {
     const headers = $request.headers || {};
 
-    // only save useful headers (avoid junk)
     const filtered = {
       "User-Agent": headers["User-Agent"],
       "Cookie": headers["Cookie"],
@@ -23,10 +22,12 @@ if (typeof $request !== "undefined") {
     };
 
     $persistentStore.write(JSON.stringify(filtered), NS_HEADER_KEY);
-    console.log("[NS] headers saved");
+
+    // ✅ ADD THIS
+    $notification.post("NS Debug", "Headers Captured", "Success");
 
   } catch (e) {
-    console.log("[NS] header save failed: " + e);
+    $notification.post("NS Debug", "Header Failed", String(e));
   }
 
   $done({});
