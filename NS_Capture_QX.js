@@ -1,4 +1,4 @@
-// ==NS Capture All for QX (FINAL)==
+// ==NS Capture All for QX (FIXED)==
 
 const NS_HEADER_KEY = "NS_NodeseekHeaders";
 const NS_ACCOUNT_KEY = "NS_AccountInfo";
@@ -21,13 +21,12 @@ if (typeof $request !== "undefined") {
       "refract-sign": headers["refract-sign"]
     };
 
-    $persistentStore.write(JSON.stringify(filtered), NS_HEADER_KEY);
+    $prefs.setValueForKey(JSON.stringify(filtered), NS_HEADER_KEY);
 
-    // ✅ ADD THIS
-    $notification.post("NS Debug", "Headers Captured", "Success");
+    $notify("NodeSeek", "Headers Captured", "OK");
 
   } catch (e) {
-    $notification.post("NS Debug", "Header Failed", String(e));
+    $notify("NodeSeek", "Header Capture Failed", String(e));
   }
 
   $done({});
@@ -67,7 +66,7 @@ try {
   const body = String(($response && $response.body) || "");
 
   if (body) {
-    $persistentStore.write(body, NS_ACCOUNT_RAW_KEY);
+    $prefs.setValueForKey(body, NS_ACCOUNT_RAW_KEY);
   }
 
   const parsed = safeParse(body);
@@ -91,11 +90,12 @@ try {
     updatedAt: new Date().toLocaleString()
   };
 
-  $persistentStore.write(JSON.stringify(account), NS_ACCOUNT_KEY);
-  console.log("[NS] account saved");
+  $prefs.setValueForKey(JSON.stringify(account), NS_ACCOUNT_KEY);
+
+  $notify("NodeSeek", "Account Captured", account.username || "OK");
 
 } catch (e) {
-  console.log("[NS] response parse failed: " + e);
+  $notify("NodeSeek", "Account Capture Failed", String(e));
 }
 
 $done({});
