@@ -1,38 +1,61 @@
-try {
-  var data = JSON.parse($response.body);
+if (!$response.body || $response.body.indexOf('"ip"') < 0) { $done(null); }
 
-  function toFlag(code) {
-    var upper = (code || 'UN').toUpperCase();
-    var flag = '';
-    for (var i = 0; i < upper.length; i++) {
-      flag += String.fromCodePoint(0x1F1E6 + upper.charCodeAt(i) - 65);
-    }
-    return flag;
-  }
+var flags = new Map([
+  ["AC","🇦🇨"],["AE","🇦🇪"],["AF","🇦🇫"],["AI","🇦🇮"],["AL","🇦🇱"],
+  ["AO","🇦🇴"],["AQ","🇦🇶"],["AR","🇦🇷"],["AS","🇦🇸"],["AT","🇦🇹"],
+  ["AU","🇦🇺"],["AW","🇦🇼"],["AZ","🇦🇿"],["BA","🇧🇦"],["BB","🇧🇧"],
+  ["BD","🇧🇩"],["BE","🇧🇪"],["BF","🇧🇫"],["BG","🇧🇬"],["BH","🇧🇭"],
+  ["BI","🇧"],["BJ","🇧🇯"],["BM","🇧🇲"],["BN","🇧🇳"],["BO","🇧🇴"],
+  ["BR","🇧"],["BS","🇧🇸"],["BT","🇧🇹"],["BW","🇧🇼"],["BY","🇧🇾"],
+  ["BZ","🇧🇿"],["CA","🇨🇦"],["CD","🇨🇩"],["CF","🇨🇫"],["CG","🇨🇬"],
+  ["CH","🇨🇭"],["CI","🇨"],["CK","🇨🇰"],["CL","🇨🇱"],["CM","🇨🇲"],
+  ["CN","🇨🇳"],["CO","🇨"],["CR","🇨🇷"],["CU","🇨🇺"],["CV","🇨🇻"],
+  ["CW","🇨🇼"],["CY","🇨🇾"],["CZ","🇨🇿"],["DE","🇩🇪"],["DJ","🇩🇯"],
+  ["DK","🇩🇰"],["DM","🇩🇲"],["DO","🇩🇴"],["DZ","🇩🇿"],["EC","🇪🇨"],
+  ["EE","🇪🇪"],["EG","🇪🇬"],["ER","🇪🇷"],["ES","🇪🇸"],["ET","🇪🇹"],
+  ["EU","🇪🇺"],["FI","🇫🇮"],["FJ","🇫"],["FK","🇫🇰"],["FM","🇫🇲"],
+  ["FO","🇫🇴"],["FR","🇫🇷"],["GA","🇬🇦"],["GB","🇬🇧"],["GE","🇬🇪"],
+  ["GF","🇬🇫"],["GH","🇬🇭"],["GI","🇬🇮"],["GL","🇬🇱"],["GM","🇬🇲"],
+  ["GP","🇬🇵"],["GQ","🇬🇶"],["GR","🇬🇷"],["GT","🇬🇹"],["GU","🇬🇺"],
+  ["GW","🇬🇼"],["GY","🇬🇾"],["HK","🇭🇰"],["HN","🇭🇳"],["HR","🇭🇷"],
+  ["HT","🇭🇹"],["HU","🇭🇺"],["ID","🇮🇩"],["IE","🇮🇪"],["IL","🇮🇱"],
+  ["IM","🇮🇲"],["IN","🇮🇳"],["IQ","🇮🇶"],["IR","🇮"],["IS","🇮🇸"],
+  ["IT","🇮🇹"],["JM","🇯🇲"],["JO","🇯🇴"],["JP","🇯🇵"],["KE","🇰🇪"],
+  ["KG","🇰🇬"],["KH","🇰🇭"],["KP","🇰🇵"],["KR","🇰🇷"],["KW","🇰🇼"],
+  ["KY","🇰🇾"],["KZ","🇰🇿"],["LA","🇱🇦"],["LB","🇱🇧"],["LI","🇱🇮"],
+  ["LK","🇱🇰"],["LT","🇱🇹"],["LU","🇱🇺"],["LV","🇱🇻"],["LY","🇱🇾"],
+  ["MA","🇲🇦"],["MC","🇲🇨"],["MD","🇲🇩"],["ME","🇲🇪"],["MK","🇲🇰"],
+  ["MM","🇲🇲"],["MN","🇲🇳"],["MO","🇲🇴"],["MT","🇲🇹"],["MU","🇲🇺"],
+  ["MV","🇲🇻"],["MX","🇲🇽"],["MY","🇲🇾"],["MZ","🇲🇿"],["NA","🇳🇦"],
+  ["NG","🇳🇬"],["NI","🇳🇮"],["NL","🇳🇱"],["NO","🇳🇴"],["NP","🇳🇵"],
+  ["NZ","🇳🇿"],["OM","🇴🇲"],["PA","🇵🇦"],["PE","🇵🇪"],["PH","🇵🇭"],
+  ["PK","🇵🇰"],["PL","🇵🇱"],["PR","🇵🇷"],["PS","🇵🇸"],["PT","🇵🇹"],
+  ["PY","🇵🇾"],["QA","🇶🇦"],["RE","🇷🇪"],["RO","🇷🇴"],["RS","🇷🇸"],
+  ["RU","🇷"],["RW","🇷🇼"],["SA","🇸🇦"],["SB","🇸🇧"],["SC","🇸🇨"],
+  ["SD","🇸🇩"],["SE","🇸🇪"],["SG","🇸🇬"],["SI","🇸🇮"],["SK","🇸🇰"],
+  ["SM","🇸🇲"],["SR","🇸🇷"],["SY","🇸🇾"],["TG","🇹🇬"],["TH","🇹🇭"],
+  ["TL","🇹🇱"],["TN","🇹🇳"],["TO","🇹🇴"],["TR","🇹"],["TV","🇹🇻"],
+  ["TW","🇹🇼"],["UA","🇺🇦"],["GB","🇬🇧"],["UM","🇺🇲"],["US","🇺🇸"],
+  ["UY","🇺🇾"],["UZ","🇺🇿"],["VA","🇻🇦"],["VE","🇻🇪"],["VG","🇻🇬"],
+  ["VI","🇻🇮"],["VN","🇻🇳"],["ZA","🇿🇦"],["ZM","🇿"],["ZW","🇿🇼"],
+]);
 
-  var flag   = toFlag(data.country);
-  var city   = data.city   || '';
-  var region = data.region || '';
-  var org    = data.org    || '';
+var obj = JSON.parse($response.body);
 
-  var locParts = [];
-  if (city) locParts.push(city);
-  if (region && region !== city) locParts.push(region);
-  var loc = flag + ' ' + (locParts.length > 0 ? locParts.join(', ') : data.country);
+// 主标题：国旗 + 城市, 省/州
+// ipinfo.io 字段：country(2位码), city, region(省州名)
+var flag   = flags.get(obj.country) || "🌐";
+var city   = obj.city   || "";
+var region = obj.region || "";
+var locParts = [];
+if (city) locParts.push(city);
+if (region && region !== city) locParts.push(region);
+var title = flag + " " + (locParts.length ? locParts.join(", ") : (obj.country || ""));
 
-  var m = org.match(/^(AS\d+)\s+(.+)$/);
-  var subtitle = m ? m[1] + ' · ' + m[2] : org;
+// 副标题：ASN · 机构名
+// ipinfo.io org 格式："AS13335 Cloudflare, Inc."
+var org = obj.org || "";
+var m = org.match(/^(AS\d+)\s+(.+)$/);
+var subtitle = m ? m[1] + " · " + m[2] : org;
 
-  $done({
-    country:      loc,
-    ip:           data.ip,
-    organization: subtitle
-  });
-
-} catch(e) {
-  $done({
-    country:      'ERR: ' + e.message,
-    ip:           'check org field',
-    organization: $response ? $response.body.substring(0, 80) : 'no response'
-  });
-}
+$done({ title: title, subtitle: subtitle, ip: obj.ip });
