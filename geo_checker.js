@@ -1,36 +1,26 @@
 /**
- * Quantumult X — Custom Geo Location Checker (English, hardened)
+ * Quantumult X — Custom Geo Location Checker (English, final)
  *
- * Turn DEBUG = true once to see the raw API JSON in the subtitle.
- * That immediately tells you which fields the API is actually returning.
+ * Flip DEBUG to true to see the raw API JSON in the subtitle.
  */
 const DEBUG = false;
 
-const raw = (() => {
-  try { return JSON.parse($resource); }
-  catch (e) { return { status: "error", message: "Bad JSON" }; }
-})();
-
-// ---------- Debug short-circuit ----------
-if (DEBUG) {
-  $done({
-    title: "DEBUG",
-    subtitle: JSON.stringify(raw).slice(0, 180),
-    ip: raw.query || "—",
-  });
-  return;
+// ---------- Parse ----------
+let raw;
+try {
+  raw = JSON.parse($resource);
+} catch (e) {
+  raw = { status: "error", message: "Bad JSON from API" };
 }
 
 // ---------- Helpers ----------
 const FLAG_OVERRIDES = {
-  // Use a text fallback if your iOS region hides specific flags.
-  // TW: "TW",
+  // TW: "[TW]",   // uncomment if your iOS region hides 🇹🇼
 };
 
 function flag(code) {
-  if (!code) return "🏳️";
   if (FLAG_OVERRIDES[code]) return FLAG_OVERRIDES[code];
-  if (code.length !== 2) return "🏳️";
+  if (!code || code.length !== 2) return "🏳️";
   const cc = code.toUpperCase();
   return String.fromCodePoint(
     ...[...cc].map(c => 0x1F1A5 + c.charCodeAt(0))
@@ -50,7 +40,7 @@ function joinParts(parts, sep = " · ") {
   return out.join(sep);
 }
 
-function tags(d) {
+function tagSuffix(d) {
   const t = [];
   if (d.mobile)  t.push("Mobile");
   if (d.proxy)   t.push("Proxy");
@@ -58,52 +48,50 @@ function tags(d) {
   return t.length ? `  [${t.join("/")}]` : "";
 }
 
-// ---------- Fail-safe ----------
-if (raw.status && raw.status !== "success") {
-  $done({
-    title: `${flag("")} Location unavailable`,
-    subtitle: raw.message || "Geo lookup failed",
-    ip: raw.query || "—",
-  });
-  return;
-}
+// ---------- Build output ----------
+let title, subtitle, ip;
 
-// ---------- Title ----------
-const cc        = raw.countryCode  || "";
-const continent = CONTINENT_MAP[raw.continentCode] || raw.continent || "";
-const country   = raw.country      || "Unknown";
-const region    = raw.regionName   || "";
-const city      = raw.city         || "";
-
-const CITY_LIKE = new Set(["HK", "MO", "SG", "MC", "VA", "GI"]);
-
-let place;
-if (CITY_LIKE.has(cc)) {
-  place = joinParts([country, city]);          // e.g. Hong Kong · Central
-} else if (cc === "TW") {
-  place = joinParts(["Asia", "Taiwan", city || region]);
+if (DEBUG) {
+  title    = "DEBUG";
+  subtitle = JSON.stringify(raw).slice(0, 200);
+  ip       = raw.query || "—";
+} else if (raw.status && raw.status !== "success") {
+  title    = `${flag("")} Location unavailable`;
+  subtitle = raw.message || "Geo lookup failed";
+  ip       = raw.query || "—";
 } else {
-  place = joinParts([continent, country, region, city]);
+  const cc        = raw.countryCode  || "";
+  const continent = CONTINENT_MAP[raw.continentCode] || raw.continent || "";
+  const country   = raw.country      || "Unknown";
+  const region    = raw.regionName   || "";
+  const city      = raw.city         || "";
+
+  const CITY_LIKE = new Set(["HK", "MO", "SG", "MC", "VA", "GI"]);
+
+  let place;
+  if (CITY_LIKE.has(cc)) {
+    place = joinParts([country, city]);
+  } else if (cc === "TW") {
+    place = joinParts(["Asia", "Taiwan", city || region]);
+  } else {
+    place = joinParts([continent, country, region, city]);
+  }
+
+  title = `${flag(cc)} ${place}`;
+
+  const provider = raw.org || raw.isp || "Unknown ISP";
+
+  let asLine = "";
+  if (raw.as) {
+    const m = raw.as.match(/^(AS\d+)\s*(.*)$/);
+    asLine = m ? ` · ${m[1]}${m[2] ? " " + m[2] : ""}` : ` · ${raw.as}`;
+  } else if (raw.asname) {
+    asLine = ` · ${raw.asname}`;
+  }
+
+  subtitle = `${provider}${asLine}${tagSuffix(raw)}`;
+  ip       = raw.query || "—";
 }
-
-const title = `${flag(cc)} ${place}`;
-
-// ---------- Subtitle ----------
-const provider = raw.org || raw.isp || "Unknown ISP";
-
-let asLine = "";
-if (raw.as) {
-  const m = raw.as.match(/^(AS\d+)\s*(.*)$/);
-  asLine = m ? ` · ${m[1]}${m[2] ? " " + m[2] : ""}` : ` · ${raw.as}`;
-} else if (raw.asname) {
-  asLine = ` · ${raw.asname}`;
-}
-
-const subtitle = `${provider}${asLine}${tags(raw)}`;
 
 // ---------- Return ----------
-$done({
-  title,
-  subtitle,
-  ip: raw.query || "—",
-});
+$done({ title, subtitle, ip });
