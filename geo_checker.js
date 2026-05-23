@@ -1,29 +1,43 @@
-var data = JSON.parse($response.body);
+// custom_geo.js
+const data = JSON.parse($resource);
 
-function toFlag(code) {
-  var upper = (code || 'UN').toUpperCase();
-  var flag = '';
-  for (var i = 0; i < upper.length; i++) {
-    flag += String.fromCodePoint(0x1F1E6 + upper.charCodeAt(i) - 65);
-  }
-  return flag;
+// ---- 1. 国旗（含台湾）----
+function flag(code) {
+  if (!code) return "🏴";
+  // 区域指示符：每个字母 + 0x1F1A5
+  const cc = code.toUpperCase();
+  return String.fromCodePoint(
+    ...[...cc].map(c => 0x1F1A5 + c.charCodeAt(0))
+  );
 }
 
-var flag   = toFlag(data.country);
-var city   = data.city   || '';
-var region = data.region || '';
-var org    = data.org    || '';
+// ---- 2. 主标题：国旗 + 洲 / 省市 ----
+const cc = data.countryCode || "";
+const continent = data.continent || "";   // 亚洲 / 欧洲 / 北美洲 ...
+const country   = data.country   || "";
+const region    = data.regionName|| "";
+const city      = data.city      || "";
 
-var locParts = [];
-if (city) locParts.push(city);
-if (region && region !== city) locParts.push(region);
-var loc = flag + ' ' + (locParts.length > 0 ? locParts.join(', ') : data.country);
+// 中国大陆 / 港澳台：显示「国家 · 省/市」
+// 其它地区：显示「洲 · 国家 · 城市」
+let place;
+if (["CN", "HK", "MO", "TW"].includes(cc)) {
+  place = [country, region, city].filter(Boolean).join(" · ");
+} else {
+  place = [continent, country, city].filter(Boolean).join(" · ");
+}
 
-var asnMatch = org.match(/^(AS\d+)\s+(.+)$/);
-var subtitle = asnMatch ? asnMatch[1] + ' \u00b7 ' + asnMatch[2] : org;
+const title = `${flag(cc)} ${place}`;
 
+// ---- 3. 副标题：ISP / 机房片区 ----
+// 优先级：org > isp，再附上 AS 号便于识别机房
+const provider = data.org || data.isp || "";
+const asInfo   = data.as ? ` · ${data.as}` : "";
+const subtitle = `${provider}${asInfo}`;
+
+// ---- 4. 返回 ----
 $done({
-  country:      loc,
-  ip:           data.ip,
-  organization: subtitle
+  title,
+  subtitle,
+  ip: data.query,
 });
