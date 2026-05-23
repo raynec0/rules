@@ -1,62 +1,114 @@
-if ($response.statusCode != 200) { $done(null); }
+/**
+ * Quantumult X — Custom Geo Location Checker (English)
+ * Title    : <flag> <Continent> · <Country> · <Region/City>
+ * Subtitle : <ISP / Org> · <AS number AS-name>
+ */
 
-var flags = new Map([
-  ["AC","🇦🇨"],["AE","🇦🇪"],["AF","🇦🇫"],["AI","🇦🇮"],["AL","🇦🇱"],
-  ["AO","🇦🇴"],["AQ","🇦🇶"],["AR","🇦🇷"],["AS","🇦🇸"],["AT","🇦🇹"],
-  ["AU","🇦🇺"],["AW","🇦🇼"],["AZ","🇦🇿"],["BA","🇧🇦"],["BB","🇧🇧"],
-  ["BD","🇧🇩"],["BE","🇧🇪"],["BF","🇧🇫"],["BG","🇧🇬"],["BH","🇧🇭"],
-  ["BI","🇧🇮"],["BJ","🇧🇯"],["BM","🇧🇲"],["BN","🇧🇳"],["BO","🇧🇴"],
-  ["BR","🇧🇷"],["BS","🇧🇸"],["BT","🇧🇹"],["BW","🇧🇼"],["BY","🇧🇾"],
-  ["BZ","🇧🇿"],["CA","🇨🇦"],["CD","🇨🇩"],["CF","🇨🇫"],["CG","🇨🇬"],
-  ["CH","🇨🇭"],["CI","🇨🇮"],["CK","🇨🇰"],["CL","🇨🇱"],["CM","🇨🇲"],
-  ["CN","🇨🇳"],["CO","🇨🇴"],["CR","🇨🇷"],["CU","🇨🇺"],["CV","🇨🇻"],
-  ["CW","🇨🇼"],["CY","🇨🇾"],["CZ","🇨🇿"],["DE","🇩🇪"],["DJ","🇩🇯"],
-  ["DK","🇩🇰"],["DM","🇩🇲"],["DO","🇩🇴"],["DZ","🇩🇿"],["EC","🇪🇨"],
-  ["EE","🇪🇪"],["EG","🇪🇬"],["ER","🇪🇷"],["ES","🇪🇸"],["ET","🇪🇹"],
-  ["EU","🇪🇺"],["FI","🇫🇮"],["FJ","🇫🇯"],["FK","🇫🇰"],["FM","🇫🇲"],
-  ["FO","🇫🇴"],["FR","🇫🇷"],["GA","🇬🇦"],["GB","🇬🇧"],["GE","🇬🇪"],
-  ["GF","🇬🇫"],["GH","🇬🇭"],["GI","🇬🇮"],["GL","🇬🇱"],["GM","🇬🇲"],
-  ["GP","🇬🇵"],["GQ","🇬🇶"],["GR","🇬🇷"],["GT","🇬🇹"],["GU","🇬🇺"],
-  ["GW","🇬🇼"],["GY","🇬🇾"],["HK","🇭🇰"],["HN","🇭🇳"],["HR","🇭🇷"],
-  ["HT","🇭🇹"],["HU","🇭🇺"],["ID","🇮🇩"],["IE","🇮🇪"],["IL","🇮🇱"],
-  ["IM","🇮🇲"],["IN","🇮🇳"],["IQ","🇮🇶"],["IR","🇮🇷"],["IS","🇮🇸"],
-  ["IT","🇮🇹"],["JM","🇯🇲"],["JO","🇯🇴"],["JP","🇯🇵"],["KE","🇰🇪"],
-  ["KG","🇰🇬"],["KH","🇰🇭"],["KP","🇰🇵"],["KR","🇰🇷"],["KW","🇰🇼"],
-  ["KY","🇰🇾"],["KZ","🇰🇿"],["LA","🇱🇦"],["LB","🇱🇧"],["LI","🇱🇮"],
-  ["LK","🇱🇰"],["LT","🇱🇹"],["LU","🇱🇺"],["LV","🇱🇻"],["LY","🇱🇾"],
-  ["MA","🇲🇦"],["MC","🇲🇨"],["MD","🇲🇩"],["ME","🇲🇪"],["MK","🇲🇰"],
-  ["MM","🇲🇲"],["MN","🇲🇳"],["MO","🇲🇴"],["MT","🇲🇹"],["MU","🇲🇺"],
-  ["MV","🇲🇻"],["MX","🇲🇽"],["MY","🇲🇾"],["MZ","🇲🇿"],["NA","🇳🇦"],
-  ["NG","🇳🇬"],["NI","🇳🇮"],["NL","🇳🇱"],["NO","🇳🇴"],["NP","🇳🇵"],
-  ["NZ","🇳🇿"],["OM","🇴🇲"],["PA","🇵🇦"],["PE","🇵🇪"],["PH","🇵🇭"],
-  ["PK","🇵🇰"],["PL","🇵🇱"],["PR","🇵🇷"],["PS","🇵🇸"],["PT","🇵🇹"],
-  ["PY","🇵🇾"],["QA","🇶🇦"],["RE","🇷🇪"],["RO","🇷🇴"],["RS","🇷🇸"],
-  ["RU","🇷🇺"],["RW","🇷🇼"],["SA","🇸🇦"],["SB","🇸🇧"],["SC","🇸🇨"],
-  ["SD","🇸🇩"],["SE","🇸🇪"],["SG","🇸🇬"],["SI","🇸🇮"],["SK","🇸🇰"],
-  ["SM","🇸🇲"],["SR","🇸🇷"],["SY","🇸🇾"],["TG","🇹🇬"],["TH","🇹🇭"],
-  ["TL","🇹🇱"],["TN","🇹🇳"],["TO","🇹🇴"],["TR","🇹🇷"],["TV","🇹🇻"],
-  ["TW","🇹🇼"],["UA","🇺🇦"],["UK","🇬🇧"],["UM","🇺🇲"],["US","🇺🇸"],
-  ["UY","🇺🇾"],["UZ","🇺🇿"],["VA","🇻🇦"],["VE","🇻🇪"],["VG","🇻🇬"],
-  ["VI","🇻🇮"],["VN","🇻🇳"],["ZA","🇿🇦"],["ZM","🇿🇲"],["ZW","🇿🇼"],
-]);
+const raw = (() => {
+  try { return JSON.parse($resource); }
+  catch (e) { return {}; }
+})();
 
-var obj = JSON.parse($response.body);
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
 
-// 主标题：国旗 + 城市, 省/州
-var flag    = flags.get(obj.countryCode) || "🌐";
-var city    = obj.city       || "";
-var region  = obj.regionName || "";
-var locParts = [];
-if (city) locParts.push(city);
-if (region && region !== city) locParts.push(region);
-var title = flag + " " + (locParts.length ? locParts.join(", ") : (obj.country || obj.countryCode));
+// Build a regional-indicator flag from any 2-letter ISO code.
+function flag(code) {
+  if (!code || code.length !== 2) return "🏳️";
+  const cc = code.toUpperCase();
+  return String.fromCodePoint(
+    ...[...cc].map(c => 0x1F1A5 + c.charCodeAt(0))
+  );
+}
 
-// 副标题：ASN · 运营商（精确到机构）
-var as  = obj.as  || "";   // "AS197540 netcup GmbH"
-var isp = obj.isp || "";
-var org = obj.org || "";
-var m = as.match(/^(AS\d+)\s+(.+)$/);
-var provider = org || (m ? m[2] : "") || isp;
-var subtitle = (m ? m[1] + " · " : "") + provider;
+// Pretty continent name (ip-api already returns English, but normalize edge cases).
+const CONTINENT_MAP = {
+  AF: "Africa",
+  AN: "Antarctica",
+  AS: "Asia",
+  EU: "Europe",
+  NA: "North America",
+  OC: "Oceania",
+  SA: "South America",
+};
 
-$done({ title: title, subtitle: subtitle, ip: obj.query });
+// Dedupe adjacent identical segments and drop empties.
+function joinParts(parts, sep = " · ") {
+  const out = [];
+  for (const p of parts.map(s => (s || "").trim()).filter(Boolean)) {
+    if (out[out.length - 1]?.toLowerCase() !== p.toLowerCase()) out.push(p);
+  }
+  return out.join(sep);
+}
+
+// Tag mobile / proxy / hosting networks so suspicious nodes are visible.
+function tags(d) {
+  const t = [];
+  if (d.mobile)  t.push("Mobile");
+  if (d.proxy)   t.push("Proxy");
+  if (d.hosting) t.push("Hosting");
+  return t.length ? `  [${t.join("/")}]` : "";
+}
+
+// ---------------------------------------------------------------------------
+// Fail-safe: API returned an error or empty body
+// ---------------------------------------------------------------------------
+if (raw.status && raw.status !== "success") {
+  $done({
+    title: "🏳️ Location unavailable",
+    subtitle: raw.message || "Geo lookup failed",
+    ip: "—",
+  });
+  return;
+}
+
+// ---------------------------------------------------------------------------
+// Title — flag + place
+// ---------------------------------------------------------------------------
+const cc        = raw.countryCode  || "";
+const continent = CONTINENT_MAP[raw.continentCode] || raw.continent || "";
+const country   = raw.country      || "Unknown";
+const region    = raw.regionName   || "";
+const city      = raw.city         || "";
+
+// Special-case city-states / SARs so we don't print "Hong Kong · Hong Kong · Hong Kong".
+const CITY_LIKE = new Set(["HK", "MO", "SG", "MC", "VA", "GI"]);
+
+let place;
+if (CITY_LIKE.has(cc)) {
+  place = joinParts([country, city]);
+} else if (cc === "TW") {
+  // Always show Taipei/Kaohsiung/etc. and skip redundant "Taiwan" duplication.
+  place = joinParts(["Asia", "Taiwan", city || region]);
+} else {
+  place = joinParts([continent, country, region, city]);
+}
+
+const title = `${flag(cc)} ${place}`;
+
+// ---------------------------------------------------------------------------
+// Subtitle — provider + AS info
+// ---------------------------------------------------------------------------
+// Prefer `org` (more specific datacenter / brand) then fall back to `isp`.
+const provider = raw.org || raw.isp || "Unknown ISP";
+
+// `as` looks like "AS3462 HINET"; split into number + name for nicer rendering.
+let asLine = "";
+if (raw.as) {
+  const m = raw.as.match(/^(AS\d+)\s*(.*)$/);
+  asLine = m ? ` · ${m[1]}${m[2] ? " " + m[2] : ""}` : ` · ${raw.as}`;
+} else if (raw.asname) {
+  asLine = ` · ${raw.asname}`;
+}
+
+const subtitle = `${provider}${asLine}${tags(raw)}`;
+
+// ---------------------------------------------------------------------------
+// Return
+// ---------------------------------------------------------------------------
+$done({
+  title,
+  subtitle,
+  ip: raw.query || "—",
+});
