@@ -1,97 +1,62 @@
-/**
- * Quantumult X — Custom Geo Location Checker (English, final)
- *
- * Flip DEBUG to true to see the raw API JSON in the subtitle.
- */
-const DEBUG = false;
+if ($response.statusCode != 200) { $done(null); }
 
-// ---------- Parse ----------
-let raw;
-try {
-  raw = JSON.parse($resource);
-} catch (e) {
-  raw = { status: "error", message: "Bad JSON from API" };
-}
+var flags = new Map([
+  ["AC","🇦🇨"],["AE","🇦🇪"],["AF","🇦🇫"],["AI","🇦🇮"],["AL","🇦🇱"],
+  ["AO","🇦🇴"],["AQ","🇦🇶"],["AR","🇦🇷"],["AS","🇦🇸"],["AT","🇦🇹"],
+  ["AU","🇦🇺"],["AW","🇦🇼"],["AZ","🇦🇿"],["BA","🇧🇦"],["BB","🇧🇧"],
+  ["BD","🇧🇩"],["BE","🇧🇪"],["BF","🇧🇫"],["BG","🇧🇬"],["BH","🇧🇭"],
+  ["BI","🇧🇮"],["BJ","🇧🇯"],["BM","🇧🇲"],["BN","🇧🇳"],["BO","🇧🇴"],
+  ["BR","🇧🇷"],["BS","🇧🇸"],["BT","🇧🇹"],["BW","🇧🇼"],["BY","🇧🇾"],
+  ["BZ","🇧🇿"],["CA","🇨🇦"],["CD","🇨🇩"],["CF","🇨🇫"],["CG","🇨🇬"],
+  ["CH","🇨🇭"],["CI","🇨🇮"],["CK","🇨🇰"],["CL","🇨🇱"],["CM","🇨🇲"],
+  ["CN","🇨🇳"],["CO","🇨🇴"],["CR","🇨🇷"],["CU","🇨🇺"],["CV","🇨🇻"],
+  ["CW","🇨🇼"],["CY","🇨🇾"],["CZ","🇨🇿"],["DE","🇩🇪"],["DJ","🇩🇯"],
+  ["DK","🇩🇰"],["DM","🇩🇲"],["DO","🇩🇴"],["DZ","🇩🇿"],["EC","🇪🇨"],
+  ["EE","🇪🇪"],["EG","🇪🇬"],["ER","🇪🇷"],["ES","🇪🇸"],["ET","🇪🇹"],
+  ["EU","🇪🇺"],["FI","🇫🇮"],["FJ","🇫🇯"],["FK","🇫🇰"],["FM","🇫🇲"],
+  ["FO","🇫🇴"],["FR","🇫🇷"],["GA","🇬🇦"],["GB","🇬🇧"],["GE","🇬🇪"],
+  ["GF","🇬🇫"],["GH","🇬🇭"],["GI","🇬🇮"],["GL","🇬🇱"],["GM","🇬🇲"],
+  ["GP","🇬🇵"],["GQ","🇬🇶"],["GR","🇬🇷"],["GT","🇬🇹"],["GU","🇬🇺"],
+  ["GW","🇬🇼"],["GY","🇬🇾"],["HK","🇭🇰"],["HN","🇭🇳"],["HR","🇭🇷"],
+  ["HT","🇭🇹"],["HU","🇭🇺"],["ID","🇮🇩"],["IE","🇮🇪"],["IL","🇮🇱"],
+  ["IM","🇮🇲"],["IN","🇮🇳"],["IQ","🇮🇶"],["IR","🇮🇷"],["IS","🇮🇸"],
+  ["IT","🇮🇹"],["JM","🇯🇲"],["JO","🇯🇴"],["JP","🇯🇵"],["KE","🇰🇪"],
+  ["KG","🇰🇬"],["KH","🇰🇭"],["KP","🇰🇵"],["KR","🇰🇷"],["KW","🇰🇼"],
+  ["KY","🇰🇾"],["KZ","🇰🇿"],["LA","🇱🇦"],["LB","🇱🇧"],["LI","🇱🇮"],
+  ["LK","🇱🇰"],["LT","🇱🇹"],["LU","🇱🇺"],["LV","🇱🇻"],["LY","🇱🇾"],
+  ["MA","🇲🇦"],["MC","🇲🇨"],["MD","🇲🇩"],["ME","🇲🇪"],["MK","🇲🇰"],
+  ["MM","🇲🇲"],["MN","🇲🇳"],["MO","🇲🇴"],["MT","🇲🇹"],["MU","🇲🇺"],
+  ["MV","🇲🇻"],["MX","🇲🇽"],["MY","🇲🇾"],["MZ","🇲🇿"],["NA","🇳🇦"],
+  ["NG","🇳🇬"],["NI","🇳🇮"],["NL","🇳🇱"],["NO","🇳🇴"],["NP","🇳🇵"],
+  ["NZ","🇳🇿"],["OM","🇴🇲"],["PA","🇵🇦"],["PE","🇵🇪"],["PH","🇵🇭"],
+  ["PK","🇵🇰"],["PL","🇵🇱"],["PR","🇵🇷"],["PS","🇵🇸"],["PT","🇵🇹"],
+  ["PY","🇵🇾"],["QA","🇶🇦"],["RE","🇷🇪"],["RO","🇷🇴"],["RS","🇷🇸"],
+  ["RU","🇷🇺"],["RW","🇷🇼"],["SA","🇸🇦"],["SB","🇸🇧"],["SC","🇸🇨"],
+  ["SD","🇸🇩"],["SE","🇸🇪"],["SG","🇸🇬"],["SI","🇸🇮"],["SK","🇸🇰"],
+  ["SM","🇸🇲"],["SR","🇸🇷"],["SY","🇸🇾"],["TG","🇹🇬"],["TH","🇹🇭"],
+  ["TL","🇹🇱"],["TN","🇹🇳"],["TO","🇹🇴"],["TR","🇹🇷"],["TV","🇹🇻"],
+  ["TW","🇹🇼"],["UA","🇺🇦"],["UK","🇬🇧"],["UM","🇺🇲"],["US","🇺🇸"],
+  ["UY","🇺🇾"],["UZ","🇺🇿"],["VA","🇻🇦"],["VE","🇻🇪"],["VG","🇻🇬"],
+  ["VI","🇻🇮"],["VN","🇻🇳"],["ZA","🇿🇦"],["ZM","🇿🇲"],["ZW","🇿🇼"],
+]);
 
-// ---------- Helpers ----------
-const FLAG_OVERRIDES = {
-  // TW: "[TW]",   // uncomment if your iOS region hides 🇹🇼
-};
+var obj = JSON.parse($response.body);
 
-function flag(code) {
-  if (FLAG_OVERRIDES[code]) return FLAG_OVERRIDES[code];
-  if (!code || code.length !== 2) return "🏳️";
-  const cc = code.toUpperCase();
-  return String.fromCodePoint(
-    ...[...cc].map(c => 0x1F1A5 + c.charCodeAt(0))
-  );
-}
+// 主标题：国旗 + 城市, 省/州
+var flag    = flags.get(obj.countryCode) || "🌐";
+var city    = obj.city       || "";
+var region  = obj.regionName || "";
+var locParts = [];
+if (city) locParts.push(city);
+if (region && region !== city) locParts.push(region);
+var title = flag + " " + (locParts.length ? locParts.join(", ") : (obj.country || obj.countryCode));
 
-const CONTINENT_MAP = {
-  AF: "Africa", AN: "Antarctica", AS: "Asia", EU: "Europe",
-  NA: "North America", OC: "Oceania", SA: "South America",
-};
+// 副标题：ASN · 运营商（精确到机构）
+var as  = obj.as  || "";   // "AS197540 netcup GmbH"
+var isp = obj.isp || "";
+var org = obj.org || "";
+var m = as.match(/^(AS\d+)\s+(.+)$/);
+var provider = org || (m ? m[2] : "") || isp;
+var subtitle = (m ? m[1] + " · " : "") + provider;
 
-function joinParts(parts, sep = " · ") {
-  const out = [];
-  for (const p of parts.map(s => (s || "").trim()).filter(Boolean)) {
-    if (out[out.length - 1]?.toLowerCase() !== p.toLowerCase()) out.push(p);
-  }
-  return out.join(sep);
-}
-
-function tagSuffix(d) {
-  const t = [];
-  if (d.mobile)  t.push("Mobile");
-  if (d.proxy)   t.push("Proxy");
-  if (d.hosting) t.push("Hosting");
-  return t.length ? `  [${t.join("/")}]` : "";
-}
-
-// ---------- Build output ----------
-let title, subtitle, ip;
-
-if (DEBUG) {
-  title    = "DEBUG";
-  subtitle = JSON.stringify(raw).slice(0, 200);
-  ip       = raw.query || "—";
-} else if (raw.status && raw.status !== "success") {
-  title    = `${flag("")} Location unavailable`;
-  subtitle = raw.message || "Geo lookup failed";
-  ip       = raw.query || "—";
-} else {
-  const cc        = raw.countryCode  || "";
-  const continent = CONTINENT_MAP[raw.continentCode] || raw.continent || "";
-  const country   = raw.country      || "Unknown";
-  const region    = raw.regionName   || "";
-  const city      = raw.city         || "";
-
-  const CITY_LIKE = new Set(["HK", "MO", "SG", "MC", "VA", "GI"]);
-
-  let place;
-  if (CITY_LIKE.has(cc)) {
-    place = joinParts([country, city]);
-  } else if (cc === "TW") {
-    place = joinParts(["Asia", "Taiwan", city || region]);
-  } else {
-    place = joinParts([continent, country, region, city]);
-  }
-
-  title = `${flag(cc)} ${place}`;
-
-  const provider = raw.org || raw.isp || "Unknown ISP";
-
-  let asLine = "";
-  if (raw.as) {
-    const m = raw.as.match(/^(AS\d+)\s*(.*)$/);
-    asLine = m ? ` · ${m[1]}${m[2] ? " " + m[2] : ""}` : ` · ${raw.as}`;
-  } else if (raw.asname) {
-    asLine = ` · ${raw.asname}`;
-  }
-
-  subtitle = `${provider}${asLine}${tagSuffix(raw)}`;
-  ip       = raw.query || "—";
-}
-
-// ---------- Return ----------
-$done({ title, subtitle, ip });
+$done({ title: title, subtitle: subtitle, ip: obj.query });
