@@ -1,25 +1,25 @@
-if (!$response.body || $response.body.indexOf('"ip"') < 0) { $done(null); }
+if ($response.statusCode != 200) { $done(null); }
 
 var flags = new Map([
   ["AC","🇦🇨"],["AE","🇦🇪"],["AF","🇦🇫"],["AI","🇦🇮"],["AL","🇦🇱"],
   ["AO","🇦🇴"],["AQ","🇦🇶"],["AR","🇦🇷"],["AS","🇦🇸"],["AT","🇦🇹"],
   ["AU","🇦🇺"],["AW","🇦🇼"],["AZ","🇦🇿"],["BA","🇧🇦"],["BB","🇧🇧"],
   ["BD","🇧🇩"],["BE","🇧🇪"],["BF","🇧🇫"],["BG","🇧🇬"],["BH","🇧🇭"],
-  ["BI","🇧"],["BJ","🇧🇯"],["BM","🇧🇲"],["BN","🇧🇳"],["BO","🇧🇴"],
-  ["BR","🇧"],["BS","🇧🇸"],["BT","🇧🇹"],["BW","🇧🇼"],["BY","🇧🇾"],
+  ["BI","🇧🇮"],["BJ","🇧🇯"],["BM","🇧🇲"],["BN","🇧🇳"],["BO","🇧🇴"],
+  ["BR","🇧🇷"],["BS","🇧🇸"],["BT","🇧🇹"],["BW","🇧🇼"],["BY","🇧🇾"],
   ["BZ","🇧🇿"],["CA","🇨🇦"],["CD","🇨🇩"],["CF","🇨🇫"],["CG","🇨🇬"],
-  ["CH","🇨🇭"],["CI","🇨"],["CK","🇨🇰"],["CL","🇨🇱"],["CM","🇨🇲"],
-  ["CN","🇨🇳"],["CO","🇨"],["CR","🇨🇷"],["CU","🇨🇺"],["CV","🇨🇻"],
+  ["CH","🇨🇭"],["CI","🇨🇮"],["CK","🇨🇰"],["CL","🇨🇱"],["CM","🇨🇲"],
+  ["CN","🇨🇳"],["CO","🇨🇴"],["CR","🇨🇷"],["CU","🇨🇺"],["CV","🇨🇻"],
   ["CW","🇨🇼"],["CY","🇨🇾"],["CZ","🇨🇿"],["DE","🇩🇪"],["DJ","🇩🇯"],
   ["DK","🇩🇰"],["DM","🇩🇲"],["DO","🇩🇴"],["DZ","🇩🇿"],["EC","🇪🇨"],
   ["EE","🇪🇪"],["EG","🇪🇬"],["ER","🇪🇷"],["ES","🇪🇸"],["ET","🇪🇹"],
-  ["EU","🇪🇺"],["FI","🇫🇮"],["FJ","🇫"],["FK","🇫🇰"],["FM","🇫🇲"],
+  ["EU","🇪🇺"],["FI","🇫🇮"],["FJ","🇫🇯"],["FK","🇫🇰"],["FM","🇫🇲"],
   ["FO","🇫🇴"],["FR","🇫🇷"],["GA","🇬🇦"],["GB","🇬🇧"],["GE","🇬🇪"],
   ["GF","🇬🇫"],["GH","🇬🇭"],["GI","🇬🇮"],["GL","🇬🇱"],["GM","🇬🇲"],
   ["GP","🇬🇵"],["GQ","🇬🇶"],["GR","🇬🇷"],["GT","🇬🇹"],["GU","🇬🇺"],
   ["GW","🇬🇼"],["GY","🇬🇾"],["HK","🇭🇰"],["HN","🇭🇳"],["HR","🇭🇷"],
   ["HT","🇭🇹"],["HU","🇭🇺"],["ID","🇮🇩"],["IE","🇮🇪"],["IL","🇮🇱"],
-  ["IM","🇮🇲"],["IN","🇮🇳"],["IQ","🇮🇶"],["IR","🇮"],["IS","🇮🇸"],
+  ["IM","🇮🇲"],["IN","🇮🇳"],["IQ","🇮🇶"],["IR","🇮🇷"],["IS","🇮🇸"],
   ["IT","🇮🇹"],["JM","🇯🇲"],["JO","🇯🇴"],["JP","🇯🇵"],["KE","🇰🇪"],
   ["KG","🇰🇬"],["KH","🇰🇭"],["KP","🇰🇵"],["KR","🇰🇷"],["KW","🇰🇼"],
   ["KY","🇰🇾"],["KZ","🇰🇿"],["LA","🇱🇦"],["LB","🇱🇧"],["LI","🇱🇮"],
@@ -31,31 +31,32 @@ var flags = new Map([
   ["NZ","🇳🇿"],["OM","🇴🇲"],["PA","🇵🇦"],["PE","🇵🇪"],["PH","🇵🇭"],
   ["PK","🇵🇰"],["PL","🇵🇱"],["PR","🇵🇷"],["PS","🇵🇸"],["PT","🇵🇹"],
   ["PY","🇵🇾"],["QA","🇶🇦"],["RE","🇷🇪"],["RO","🇷🇴"],["RS","🇷🇸"],
-  ["RU","🇷"],["RW","🇷🇼"],["SA","🇸🇦"],["SB","🇸🇧"],["SC","🇸🇨"],
+  ["RU","🇷🇺"],["RW","🇷🇼"],["SA","🇸🇦"],["SB","🇸🇧"],["SC","🇸🇨"],
   ["SD","🇸🇩"],["SE","🇸🇪"],["SG","🇸🇬"],["SI","🇸🇮"],["SK","🇸🇰"],
   ["SM","🇸🇲"],["SR","🇸🇷"],["SY","🇸🇾"],["TG","🇹🇬"],["TH","🇹🇭"],
-  ["TL","🇹🇱"],["TN","🇹🇳"],["TO","🇹🇴"],["TR","🇹"],["TV","🇹🇻"],
-  ["TW","🇹🇼"],["UA","🇺🇦"],["GB","🇬🇧"],["UM","🇺🇲"],["US","🇺🇸"],
+  ["TL","🇹🇱"],["TN","🇹🇳"],["TO","🇹🇴"],["TR","🇹🇷"],["TV","🇹🇻"],
+  ["TW","🇹🇼"],["UA","🇺🇦"],["UK","🇬🇧"],["UM","🇺🇲"],["US","🇺🇸"],
   ["UY","🇺🇾"],["UZ","🇺🇿"],["VA","🇻🇦"],["VE","🇻🇪"],["VG","🇻🇬"],
-  ["VI","🇻🇮"],["VN","🇻🇳"],["ZA","🇿🇦"],["ZM","🇿"],["ZW","🇿🇼"],
+  ["VI","🇻🇮"],["VN","🇻🇳"],["ZA","🇿🇦"],["ZM","🇿🇲"],["ZW","🇿🇼"],
 ]);
 
 var obj = JSON.parse($response.body);
 
 // 主标题：国旗 + 城市, 省/州
-// ipinfo.io 字段：country(2位码), city, region(省州名)
-var flag   = flags.get(obj.country) || "🌐";
-var city   = obj.city   || "";
-var region = obj.region || "";
+var flag    = flags.get(obj.countryCode) || "🌐";
+var city    = obj.city       || "";
+var region  = obj.regionName || "";
 var locParts = [];
 if (city) locParts.push(city);
 if (region && region !== city) locParts.push(region);
-var title = flag + " " + (locParts.length ? locParts.join(", ") : (obj.country || ""));
+var title = flag + " " + (locParts.length ? locParts.join(", ") : (obj.country || obj.countryCode));
 
-// 副标题：ASN · 机构名
-// ipinfo.io org 格式："AS13335 Cloudflare, Inc."
+// 副标题：ASN · 运营商（精确到机构）
+var as  = obj.as  || "";   // "AS197540 netcup GmbH"
+var isp = obj.isp || "";
 var org = obj.org || "";
-var m = org.match(/^(AS\d+)\s+(.+)$/);
-var subtitle = m ? m[1] + " · " + m[2] : org;
+var m = as.match(/^(AS\d+)\s+(.+)$/);
+var provider = org || (m ? m[2] : "") || isp;
+var subtitle = (m ? m[1] + " · " : "") + provider;
 
-$done({ title: title, subtitle: subtitle, ip: obj.ip });
+$done({ title: title, subtitle: subtitle, ip: obj.query });
