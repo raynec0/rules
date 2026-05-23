@@ -1,39 +1,47 @@
 /**
- * Quantumult X — Custom Geo Location Checker (English)
- * Title    : <flag> <Continent> · <Country> · <Region/City>
- * Subtitle : <ISP / Org> · <AS number AS-name>
+ * Quantumult X — Custom Geo Location Checker (English, hardened)
+ *
+ * Turn DEBUG = true once to see the raw API JSON in the subtitle.
+ * That immediately tells you which fields the API is actually returning.
  */
+const DEBUG = false;
 
 const raw = (() => {
   try { return JSON.parse($resource); }
-  catch (e) { return {}; }
+  catch (e) { return { status: "error", message: "Bad JSON" }; }
 })();
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
+// ---------- Debug short-circuit ----------
+if (DEBUG) {
+  $done({
+    title: "DEBUG",
+    subtitle: JSON.stringify(raw).slice(0, 180),
+    ip: raw.query || "—",
+  });
+  return;
+}
 
-// Build a regional-indicator flag from any 2-letter ISO code.
+// ---------- Helpers ----------
+const FLAG_OVERRIDES = {
+  // Use a text fallback if your iOS region hides specific flags.
+  // TW: "TW",
+};
+
 function flag(code) {
-  if (!code || code.length !== 2) return "🏳️";
+  if (!code) return "🏳️";
+  if (FLAG_OVERRIDES[code]) return FLAG_OVERRIDES[code];
+  if (code.length !== 2) return "🏳️";
   const cc = code.toUpperCase();
   return String.fromCodePoint(
     ...[...cc].map(c => 0x1F1A5 + c.charCodeAt(0))
   );
 }
 
-// Pretty continent name (ip-api already returns English, but normalize edge cases).
 const CONTINENT_MAP = {
-  AF: "Africa",
-  AN: "Antarctica",
-  AS: "Asia",
-  EU: "Europe",
-  NA: "North America",
-  OC: "Oceania",
-  SA: "South America",
+  AF: "Africa", AN: "Antarctica", AS: "Asia", EU: "Europe",
+  NA: "North America", OC: "Oceania", SA: "South America",
 };
 
-// Dedupe adjacent identical segments and drop empties.
 function joinParts(parts, sep = " · ") {
   const out = [];
   for (const p of parts.map(s => (s || "").trim()).filter(Boolean)) {
@@ -42,7 +50,6 @@ function joinParts(parts, sep = " · ") {
   return out.join(sep);
 }
 
-// Tag mobile / proxy / hosting networks so suspicious nodes are visible.
 function tags(d) {
   const t = [];
   if (d.mobile)  t.push("Mobile");
@@ -51,35 +58,29 @@ function tags(d) {
   return t.length ? `  [${t.join("/")}]` : "";
 }
 
-// ---------------------------------------------------------------------------
-// Fail-safe: API returned an error or empty body
-// ---------------------------------------------------------------------------
+// ---------- Fail-safe ----------
 if (raw.status && raw.status !== "success") {
   $done({
-    title: "🏳️ Location unavailable",
+    title: `${flag("")} Location unavailable`,
     subtitle: raw.message || "Geo lookup failed",
-    ip: "—",
+    ip: raw.query || "—",
   });
   return;
 }
 
-// ---------------------------------------------------------------------------
-// Title — flag + place
-// ---------------------------------------------------------------------------
+// ---------- Title ----------
 const cc        = raw.countryCode  || "";
 const continent = CONTINENT_MAP[raw.continentCode] || raw.continent || "";
 const country   = raw.country      || "Unknown";
 const region    = raw.regionName   || "";
 const city      = raw.city         || "";
 
-// Special-case city-states / SARs so we don't print "Hong Kong · Hong Kong · Hong Kong".
 const CITY_LIKE = new Set(["HK", "MO", "SG", "MC", "VA", "GI"]);
 
 let place;
 if (CITY_LIKE.has(cc)) {
-  place = joinParts([country, city]);
+  place = joinParts([country, city]);          // e.g. Hong Kong · Central
 } else if (cc === "TW") {
-  // Always show Taipei/Kaohsiung/etc. and skip redundant "Taiwan" duplication.
   place = joinParts(["Asia", "Taiwan", city || region]);
 } else {
   place = joinParts([continent, country, region, city]);
@@ -87,13 +88,9 @@ if (CITY_LIKE.has(cc)) {
 
 const title = `${flag(cc)} ${place}`;
 
-// ---------------------------------------------------------------------------
-// Subtitle — provider + AS info
-// ---------------------------------------------------------------------------
-// Prefer `org` (more specific datacenter / brand) then fall back to `isp`.
+// ---------- Subtitle ----------
 const provider = raw.org || raw.isp || "Unknown ISP";
 
-// `as` looks like "AS3462 HINET"; split into number + name for nicer rendering.
 let asLine = "";
 if (raw.as) {
   const m = raw.as.match(/^(AS\d+)\s*(.*)$/);
@@ -104,9 +101,7 @@ if (raw.as) {
 
 const subtitle = `${provider}${asLine}${tags(raw)}`;
 
-// ---------------------------------------------------------------------------
-// Return
-// ---------------------------------------------------------------------------
+// ---------- Return ----------
 $done({
   title,
   subtitle,
