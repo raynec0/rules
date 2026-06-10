@@ -1,0 +1,8 @@
+#!name=Anywhere规则格式测试
+#!desc=用于探测正确的规则语法
+
+[mitm]
+hostname = s.youtube.com
+
+[rewrite]
+^https?://s\.youtube\.com/api/stats/ads reject-200
