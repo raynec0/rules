@@ -1,5 +1,0 @@
-#!name=格式测试3-QX风格flat
-
-^https?://s\.youtube\.com/api/stats/ads url reject-200
-
-hostname = s.youtube.com
