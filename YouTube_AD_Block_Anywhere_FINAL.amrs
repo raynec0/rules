@@ -1,0 +1,15 @@
+# YouTube 去广告 - Anywhere MITM RuleSet
+# Final version: protobuf request pruning + googlevideo oad blocking
+# Source style follows Anywhere MITM operation 100 script rules.
+
+name = YouTube去广告
+hostname = youtubei.googleapis.com, googlevideo.com, youtube.com
+
+0, 100, ^https://[^/]+/initplayback.*[?&]oad(?:[=&]|$), ZnVuY3Rpb24gcHJvY2VzcyhjdHgpIHsKICBpZiAoY3R4LnBoYXNlICE9PSAicmVxdWVzdCIgfHwgIWN0eC51cmwpIHJldHVybjsKICBpZiAoL15odHRwcz86XC9cL1tcdy1dK1wuZ29vZ2xldmlkZW9cLmNvbVwvaW5pdHBsYXliYWNrLitbPyZdb2FkKD86Wz0mXXwkKS8udGVzdChjdHgudXJsKSkgewogICAgQW55d2hlcmUucmVzcG9uZCh7c3RhdHVzOiA1MDIsIGhlYWRlcnM6IFtbImNvbnRlbnQtdHlwZSIsICJ0ZXh0L3BsYWluOyBjaGFyc2V0PXV0Zi04Il1dLCBib2R5OiAiIn0pOwogIH0KfQ==
+0, 100, ^https://[^/]+/youtubei/v1/(?:browse|player|search|guide)(?:\?|$), ZnVuY3Rpb24gcHJvY2VzcyhjdHgpIHsKICBpZiAoY3R4LnBoYXNlICE9PSAicmVxdWVzdCIgfHwgIWN0eC5ib2R5IHx8ICFjdHguYm9keS5sZW5ndGgpIHJldHVybjsKICB0cnkgewogICAgdmFyIHBiID0gQW55d2hlcmUuY29kZWMucHJvdG9idWY7CiAgICB2YXIgcm9vdCA9IHBiLmRlY29kZShjdHguYm9keSk7CiAgICB2YXIgY2hhbmdlZCA9IGZhbHNlOwogICAgZm9yICh2YXIgaSA9IDA7IGkgPCByb290Lmxlbmd0aDsgaSsrKSB7CiAgICAgIHZhciBjb250ZXh0RmllbGQgPSByb290W2ldOwogICAgICBpZiAoY29udGV4dEZpZWxkLmZpZWxkICE9PSAxIHx8IGNvbnRleHRGaWVsZC53aXJlICE9PSAyKSBjb250aW51ZTsKICAgICAgdmFyIGNvbnRleHQgPSBwYi5kZWNvZGUoY29udGV4dEZpZWxkLnZhbHVlKTsKICAgICAgdmFyIGNvbnRleHRDaGFuZ2VkID0gZmFsc2U7CiAgICAgIGZvciAodmFyIGogPSAwOyBqIDwgY29udGV4dC5sZW5ndGg7IGorKykgewogICAgICAgIHZhciBhZFNpZ25hbHNGaWVsZCA9IGNvbnRleHRbal07CiAgICAgICAgaWYgKGFkU2lnbmFsc0ZpZWxkLmZpZWxkICE9PSA5IHx8IGFkU2lnbmFsc0ZpZWxkLndpcmUgIT09IDIpIGNvbnRpbnVlOwogICAgICAgIHZhciBhZFNpZ25hbHMgPSBwYi5kZWNvZGUoYWRTaWduYWxzRmllbGQudmFsdWUpOwogICAgICAgIHZhciBmaWx0ZXJlZCA9IGFkU2lnbmFscy5maWx0ZXIoZnVuY3Rpb24gKGVudHJ5KSB7IHJldHVybiBlbnRyeS5maWVsZCAhPT0gMTsgfSk7CiAgICAgICAgaWYgKGZpbHRlcmVkLmxlbmd0aCAhPT0gYWRTaWduYWxzLmxlbmd0aCkgewogICAgICAgICAgYWRTaWduYWxzRmllbGQudmFsdWUgPSBwYi5lbmNvZGUoZmlsdGVyZWQpOwogICAgICAgICAgY29udGV4dENoYW5nZWQgPSB0cnVlOwogICAgICAgIH0KICAgICAgfQogICAgICBpZiAoY29udGV4dENoYW5nZWQpIHsKICAgICAgICBjb250ZXh0RmllbGQudmFsdWUgPSBwYi5lbmNvZGUoY29udGV4dCk7CiAgICAgICAgY2hhbmdlZCA9IHRydWU7CiAgICAgIH0KICAgIH0KICAgIGlmIChjaGFuZ2VkKSB7CiAgICAgIGN0eC5ib2R5ID0gcGIuZW5jb2RlKHJvb3QpOwogICAgICBBbnl3aGVyZS5kb25lKCk7CiAgICB9CiAgfSBjYXRjaCAoZSkge30KfQ==
+0, 2, ^https://[^/]+/youtubei/v1/(?:browse|next|player|search|reel/reel_watch_sequence|guide|account/get_setting|get_watch)(?:\?|$), accept-encoding
+0, 1, ^https://[^/]+/youtubei/v1/(?:browse|next|player|search|reel/reel_watch_sequence|guide|account/get_setting|get_watch)(?:\?|$), accept-encoding, identity
+
+0, 0, ^https://[^/]+/api/stats/ads, 2
+0, 0, ^https://[^/]+/(?:pagead|ptracking), 2
+0, 0, ^https://[^/]+/api/stats/qoe\?adcontext, 2
