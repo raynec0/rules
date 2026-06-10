@@ -1,5 +1,0 @@
-#!name=格式测试2-rewrite放在mitm里
-
-[mitm]
-hostname = s.youtube.com
-^https?://s\.youtube\.com/api/stats/ads reject-200
