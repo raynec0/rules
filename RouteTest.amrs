@@ -1,8 +1,0 @@
-#!name=路由规则测试
-
-[mitm]
-hostname = s.youtube.com
-
-DOMAIN-SUFFIX,googlevideo.com
-DOMAIN-KEYWORD,youtube
-DOMAIN,www.youtube.com
