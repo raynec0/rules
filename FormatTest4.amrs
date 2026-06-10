@@ -1,0 +1,7 @@
+#!name=格式测试4-url-rewrite段
+
+[mitm]
+hostname = s.youtube.com
+
+[url-rewrite]
+^https?://s\.youtube\.com/api/stats/ads reject-200
