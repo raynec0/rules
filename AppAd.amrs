@@ -1,0 +1,105 @@
+name = AppAd
+hostname = m.taobao.com, ms.jr.jd.com, jd.com, cibnabg.com, apif.ttassfgz.com, ellq.glasneh.com, gpxmf.cn, apinew.8hpt2duq.com, api.1000gxf.com, api.ainitpz.com, api.5fcgcnn.com, api.hpdgjnf.com, api.wyw68fg.com, api.hpfcqfh.com, api.dzjxekd.com, api.qxutcee.com, api.fkkejucm.com, api.sh75d6qk.com, api.gq89em.com, api.chgjaq4.com, api.cbvbqtz.com, api.gdj2a3qy.com, api.7gmsut2m.com, api.4hnovel.com, pics.xhsdns.cn, llqtv.com, www.duankamv.site, apple.tongchengfabu.com, api.juliangcili.com, api.coolapk.com, pipi.4kya.com, image.cdn.zxrtb.com, speedtest.cn, tradplusad.com, adim.pinduoduo.com, images.pinduoduo.com, t-dsp.pinduoduo.com, video-dsp.pddpic.com, pangolin-sdk-toutiao.com, pglstatp-toutiao.com, ctobsnssdk.com, snssdk.com, gromore.com, bytescm.com, bytegoofy.com, gdt.qq.com, adsmind.gdtimg.com, pgdt.gtimg.cn, vpic.cms.qq.com, us.l.qq.com, sdk.e.qq.com, ad.qq.com, qzs.gdtimg.com, snowflake.qq.com, cpatrk.net, ads.twitter.com, g.doubleclick-cn.net, g.doubleclick.net, securepubads.g.doubleclick.net, pagead2.googlesyndication.com, adservice.google.com, ib.adnxs.com, as.yahoo.com, ssl.googlesyndication.com, open.e.kuaishou.com, analytics.oceanengine.com, adx-bj.anythinktech.com, adx-os.bridgeoos.com, adv-api.shenshiads.com, statisticslinks.com, sigmob.cn, appconf.mail.163.com, dashi.163.com, adsfileretry.service.kugou.com, gateway.kugou.com, mygolbs.com, cpu-openapi.baidu.com, mobads.baidu.com, bid.adview.cn, api.douban.com, mime.baidu.com, bgg.baidu.com, app-statistics.edifier.com, admin-app.edifier.com, qinlinad.com, qinlinkeji.com, analysis.20kaka.cn, q12.tuanyougou.com, www.i3zh.com, sharedaka.com, comic.321mh.com, enmonster.com, mp.weixin.qq.com, lysl2020.com, hseon.cn, hhios.cn, ppkok.com, jiejing.store, iostj.mrlin.vip, xcx.xuxuyuan.top
+
+0, 100, ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.(alibaba\.advertisementservice\.getadv|alimama\.etao\.config\.query\/.+?etao_advertise|alimusic\.common\.mobileservice\.startinit|etao\.noah\.query\/.+tao_splash|film\.mtopadvertiseapi\.queryadvertise|o2o\.ad\.gateway\.get|taobao\.idle\.home\.welcome|trip\.activity\.querytmsresources), ZnVuY3Rpb24gcHJvY2VzcyhjdHgpIHsKICBBbnl3aGVyZS5yZXNwb25kKHsic3RhdHVzIjogMjAwLCAiaGVhZGVycyI6IFtbIkNvbnRlbnQtVHlwZSIsICJhcHBsaWNhdGlvbi9qc29uIl1dLCAiYm9keSI6ICJ7fSJ9KTsKICByZXR1cm47Cn0=
+0, 100, ^https?:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.(cainiao\.adx\.flyad\.getad|taobao\.(volvo\.secondfloor\.getconfig|wireless\.home\.newface\.awesome\.get)), ZnVuY3Rpb24gcHJvY2VzcyhjdHgpIHsKICBBbnl3aGVyZS5yZXNwb25kKHsic3RhdHVzIjogMjAwLCAiaGVhZGVycyI6IFtbIkNvbnRlbnQtVHlwZSIsICJhcHBsaWNhdGlvbi9qc29uIl1dLCAiYm9keSI6ICJ7fSJ9KTsKICByZXR1cm47Cn0=
+0, 0, ^https?:\/\/ms\.jr\.jd\.com\/gw\/generic\/aladdin\/newna\/m\/getLoadingPicture, 2, ""
+# line 22: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/.*\.cibnabg\.com\/api\/advertise, 2, ""
+# line 25: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/(apif|ellq)\.(ttassfgz|glasneh)\.com\/api\/index\/ad, 2, ""
+# line 32: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/.*\.gpxmf\.cn\/api\/v\d\/advert\/config, 2, ""
+0, 100, ^https?:\/\/(api|apinew|gzapi|jk)\..+\.com\/App\/([Aa]d\/(barsIndexAdInfo|splashInfo|vajraInfo|config|activityInfo|skitAdInfo)|IndexList\/homeFloatAd|Resource\/CommentAd), ZnVuY3Rpb24gcHJvY2VzcyhjdHgpIHsKICBBbnl3aGVyZS5yZXNwb25kKHsic3RhdHVzIjogMjAwLCAiaGVhZGVycyI6IFtbIkNvbnRlbnQtVHlwZSIsICJhcHBsaWNhdGlvbi9qc29uIl1dLCAiYm9keSI6ICJ7fSJ9KTsKICByZXR1cm47Cn0=
+0, 0, ^https?:\/\/pics\.xhsdns\.cn\/(upload\/(adv|topic)|api\/task\/taskList), 2, ""
+0, 0, ^https?:\/\/.*\/(?:xyz|myk|mtq|peiqi|pqys|aifan|xnm|tegou|xgapp|llq|dsx|xsz)\.php\/.*\/(top_notice|version), 2, ""
+0, 100, ^https:\/\/api\.juliangcili\.com\/api\/adver\/space\/waterFall\/list, ZnVuY3Rpb24gcHJvY2VzcyhjdHgpIHsKICBBbnl3aGVyZS5yZXNwb25kKHsic3RhdHVzIjogMjAwLCAiaGVhZGVycyI6IFtbIkNvbnRlbnQtVHlwZSIsICJhcHBsaWNhdGlvbi9qc29uIl1dLCAiYm9keSI6ICJ7fSJ9KTsKICByZXR1cm47Cn0=
+# line 58: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, http:\/\/sv\.adintl\.cn, 2, ""
+# line 64: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/pipi\.4kya\.com\/xgapp\.php\/v\d\/advert\.position\.(?!2), 2, ""
+0, 0, ^https?:\/\/image\.cdn\.zxrtb\.com, 2, ""
+0, 0, ^https:\/\/.*\.speedtest\.cn\/(images|api\/.+\/showpic\/position), 2, ""
+# line 73: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/.*\.tradplusad\.com, 2, ""
+0, 100, ^https:\/\/(?:adim|images|t-dsp)\.pinduoduo\.com\/(?:.*\/toutiao|mrk\/.*|marketing_api|dspcb\/i\/mrk_union), ZnVuY3Rpb24gcHJvY2VzcyhjdHgpIHsKICBBbnl3aGVyZS5yZXNwb25kKHsic3RhdHVzIjogMjAwLCAiaGVhZGVycyI6IFtbIkNvbnRlbnQtVHlwZSIsICJhcHBsaWNhdGlvbi9qc29uIl1dLCAiYm9keSI6ICJ7fSJ9KTsKICByZXR1cm47Cn0=
+0, 100, ^https:\/\/video-dsp\.pddpic\.com\/market-dsp-video, ZnVuY3Rpb24gcHJvY2VzcyhjdHgpIHsKICBBbnl3aGVyZS5yZXNwb25kKHsic3RhdHVzIjogMjAwLCAiaGVhZGVycyI6IFtbIkNvbnRlbnQtVHlwZSIsICJhcHBsaWNhdGlvbi9qc29uIl1dLCAiYm9keSI6ICJ7fSJ9KTsKICByZXR1cm47Cn0=
+# line 82: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/[-\w]*\.pangolin-sdk-toutiao[-\w]*\.com\/.*(service|api|ad|sdk|batch|config).*, 2, ""
+# line 85: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/gromore\.pangolin-sdk-toutiao[-\w]*\.com\/.*, 2, ""
+# line 88: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/api-access\.pangolin-sdk-toutiao[-\w]*\.com\/.*, 2, ""
+# line 91: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/log-api\.pangolin-sdk-toutiao[-\w]*\.com\/.*, 2, ""
+# line 94: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/.*\.pglstatp-toutiao\.com\/.*, 2, ""
+# line 95: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/.*\.pangolin-sdk-toutiao[-\w]*\.com\/.*\.(jpg|png|gif|webp|mp4|json).*, 2, ""
+# line 98: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/toblog\.ctobsnssdk\.com\/.*, 2, ""
+# line 101: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/.*\.snssdk\.com\/(bds|monitor|trace|log).*, 2, ""
+# line 104: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/.*\/commercial\/track, 2, ""
+# line 107: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/.*\.bytescm\.com\/obj\/static\/ad, 2, ""
+# line 108: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/.*\.bytegoofy\.com\/goofy\/fe\/ies\/bridge.*, 2, ""
+0, 0, ^https?:\/\/(.*\.gdt\.qq\.com\/(gdt_mview.*|server_bidding)|adsmind\.gdtimg\.com\/ads_svp_video.*|pgdt\.gtimg\.cn), 2, ""
+# line 114: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/vpic\.cms\.qq\.com\/nj_vpic, 2, ""
+# line 115: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/us\.l\.qq\.com\/exapp.*, 2, ""
+# line 116: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/sdk\.e\.qq\.com, 2, ""
+# line 117: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/ad\.qq\.com, 2, ""
+# line 118: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/qzs\.gdtimg\.com\/union, 2, ""
+# line 119: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/snowflake\.qq\.com\/ola, 2, ""
+# line 122: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/.*\.cpatrk\.net, 2, ""
+# line 125: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/ads\.twitter\.com, 2, ""
+0, 100, ^https?:\/\/.*\.g\.doubleclick(?:-cn)?\.net\/gampad\/ads, ZnVuY3Rpb24gcHJvY2VzcyhjdHgpIHsKICBBbnl3aGVyZS5yZXNwb25kKHsic3RhdHVzIjogMjAwLCAiaGVhZGVycyI6IFtbIkNvbnRlbnQtVHlwZSIsICJhcHBsaWNhdGlvbi9qc29uIl1dLCAiYm9keSI6ICJ7fSJ9KTsKICByZXR1cm47Cn0=
+# line 129: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/pagead2\.googlesyndication\.com, 2, ""
+# line 130: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/adservice\.google\.com, 2, ""
+# line 133: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/ib\.adnxs\.com, 2, ""
+# line 136: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/as\.yahoo\.com, 2, ""
+# line 139: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/ssl\.googlesyndication\.com, 2, ""
+0, 0, ^https?:\/\/open\.e\.kuaishou\.com\/rest, 2, ""
+0, 100, ^https?:\/\/analytics\.oceanengine\.com\/sdk\/app, ZnVuY3Rpb24gcHJvY2VzcyhjdHgpIHsKICBBbnl3aGVyZS5yZXNwb25kKHsic3RhdHVzIjogMjAwLCAiaGVhZGVycyI6IFtbIkNvbnRlbnQtVHlwZSIsICJhcHBsaWNhdGlvbi9qc29uIl1dLCAiYm9keSI6ICJ7fSJ9KTsKICByZXR1cm47Cn0=
+0, 100, ^https?:\/\/adx-bj\.anythinktech\.com\/bid, ZnVuY3Rpb24gcHJvY2VzcyhjdHgpIHsKICBBbnl3aGVyZS5yZXNwb25kKHsic3RhdHVzIjogMjAwLCAiaGVhZGVycyI6IFtbIkNvbnRlbnQtVHlwZSIsICJhcHBsaWNhdGlvbi9qc29uIl1dLCAiYm9keSI6ICJ7fSJ9KTsKICByZXR1cm47Cn0=
+# line 151: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/.*\.sigmob\.cn, 2, ""
+# line 154: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/adx-os\.bridgeoos\.com, 2, ""
+0, 100, ^https?:\/\/adv-api\.shenshiads\.com\/adv, ZnVuY3Rpb24gcHJvY2VzcyhjdHgpIHsKICBBbnl3aGVyZS5yZXNwb25kKHsic3RhdHVzIjogMjAwLCAiaGVhZGVycyI6IFtbIkNvbnRlbnQtVHlwZSIsICJhcHBsaWNhdGlvbi9qc29uIl1dLCAiYm9keSI6ICJ7fSJ9KTsKICByZXR1cm47Cn0=
+# line 160: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/adx-strategy-api-[^/]+\.statisticslinks\.com, 2, ""
+0, 100, ^https?:\/\/appconf\.mail\.163\.com\/(mailmaster\/(api\/http\/urlConfig|getRegConfig)\.do|mailoperating\/mailmaster\/api\/operator\/get), ZnVuY3Rpb24gcHJvY2VzcyhjdHgpIHsKICBBbnl3aGVyZS5yZXNwb25kKHsic3RhdHVzIjogMjAwLCAiaGVhZGVycyI6IFtbIkNvbnRlbnQtVHlwZSIsICJhcHBsaWNhdGlvbi9qc29uIl1dLCAiYm9keSI6ICJ7fSJ9KTsKICByZXR1cm47Cn0=
+0, 100, ^https?:\/\/dashi\.163\.com\/task-center-api\/fapi\/task\/list$, ZnVuY3Rpb24gcHJvY2VzcyhjdHgpIHsKICBBbnl3aGVyZS5yZXNwb25kKHsic3RhdHVzIjogMjAwLCAiaGVhZGVycyI6IFtbIkNvbnRlbnQtVHlwZSIsICJhcHBsaWNhdGlvbi9qc29uIl1dLCAiYm9keSI6ICJ7fSJ9KTsKICByZXR1cm47Cn0=
+0, 100, ^https?:\/\/gateway\.kugou\.com\/(youth\/v\d\/(ad\/play_status.+|start_img\/get_set|ab\/tmeab.+)|ads.+), ZnVuY3Rpb24gcHJvY2VzcyhjdHgpIHsKICBBbnl3aGVyZS5yZXNwb25kKHsic3RhdHVzIjogMjAwLCAiaGVhZGVycyI6IFtbIkNvbnRlbnQtVHlwZSIsICJhcHBsaWNhdGlvbi9qc29uIl1dLCAiYm9keSI6ICJ7fSJ9KTsKICByZXR1cm47Cn0=
+0, 100, ^https?:\/\/adsfileretry\.service\.kugou\.com, ZnVuY3Rpb24gcHJvY2VzcyhjdHgpIHsKICBBbnl3aGVyZS5yZXNwb25kKHsic3RhdHVzIjogMjAwLCAiaGVhZGVycyI6IFtbIkNvbnRlbnQtVHlwZSIsICJhcHBsaWNhdGlvbi9qc29uIl1dLCAiYm9keSI6ICJ7fSJ9KTsKICByZXR1cm47Cn0=
+# line 172: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/quanguo\.mygolbs\.com:8081, 2, ""
+# line 173: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/remind\.mygolbs\.com\/remind-off\/query\/.+, 2, ""
+# line 176: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/(cpu-openapi|mobads)\.baidu\.com\/(api\/.+\/data\/list|ads|cpro), 2, ""
+# line 179: QX reject semantics vary; mapped to Anywhere reject 200 text
+0, 0, ^https?:\/\/bid\.adview\.cn\/agent\/getAd, 2, ""
+0, 0, ^https?:\/\/api\.douban\.com\/.+\/.*ads, 2, ""
+0, 100, ^https?:\/\/mime\.baidu\.com\/v\d\/(activity\/advertisement|start_screen_ads\/list), ZnVuY3Rpb24gcHJvY2VzcyhjdHgpIHsKICBBbnl3aGVyZS5yZXNwb25kKHsic3RhdHVzIjogMjAwLCAiaGVhZGVycyI6IFtbIkNvbnRlbnQtVHlwZSIsICJhcHBsaWNhdGlvbi9qc29uIl1dLCAiYm9keSI6ICJ7fSJ9KTsKICByZXR1cm47Cn0=
+0, 100, ^https?:\/\/bgg\.baidu\.com\/bgg\/produce, ZnVuY3Rpb24gcHJvY2VzcyhjdHgpIHsKICBBbnl3aGVyZS5yZXNwb25kKHsic3RhdHVzIjogMjAwLCAiaGVhZGVycyI6IFtbIkNvbnRlbnQtVHlwZSIsICJhcHBsaWNhdGlvbi9qc29uIl1dLCAiYm9keSI6ICJ7fSJ9KTsKICByZXR1cm47Cn0=
+0, 100, ^https?:\/\/app-statistics\.edifier\.com\/api\/v1\/app_marquee_statistics, ZnVuY3Rpb24gcHJvY2VzcyhjdHgpIHsKICBBbnl3aGVyZS5yZXNwb25kKHsic3RhdHVzIjogMjAwLCAiaGVhZGVycyI6IFtbIkNvbnRlbnQtVHlwZSIsICJhcHBsaWNhdGlvbi9qc29uIl1dLCAiYm9keSI6ICJ7fSJ9KTsKICByZXR1cm47Cn0=
+0, 100, ^https?:\/\/admin-app\.edifier\.com, ZnVuY3Rpb24gcHJvY2VzcyhjdHgpIHsKICBBbnl3aGVyZS5yZXNwb25kKHsic3RhdHVzIjogMjAwLCAiaGVhZGVycyI6IFtbIkNvbnRlbnQtVHlwZSIsICJhcHBsaWNhdGlvbi9qc29uIl1dLCAiYm9keSI6ICJ7fSJ9KTsKICByZXR1cm47Cn0=
+0, 100, ^https?:\/\/.*\.enmonster\.com\/apa\/(advert\/demand\/home\/poster|index\/advert\/skin), ZnVuY3Rpb24gcHJvY2VzcyhjdHgpIHsKICBBbnl3aGVyZS5yZXNwb25kKHsic3RhdHVzIjogMjAwLCAiaGVhZGVycyI6IFtbIkNvbnRlbnQtVHlwZSIsICJhcHBsaWNhdGlvbi9qc29uIl1dLCAiYm9keSI6ICJ7fSJ9KTsKICByZXR1cm47Cn0=
+0, 100, ^https:\/\/mp\.weixin\.qq\.com\/mp\/relatedsearchword, ZnVuY3Rpb24gcHJvY2VzcyhjdHgpIHsKICBBbnl3aGVyZS5yZXNwb25kKHsic3RhdHVzIjogMjAwLCAiaGVhZGVycyI6IFtbIkNvbnRlbnQtVHlwZSIsICJhcHBsaWNhdGlvbi9qc29uIl1dLCAiYm9keSI6ICJ7fSJ9KTsKICByZXR1cm47Cn0=
