@@ -1,0 +1,18 @@
+name = Fanqie Novel
+hostname = pangolin-sdk-toutiao.com, pglstatp-toutiao.com, pstatp.com, gurd.snssdk.com, byteimg.com, snssdk.com
+
+# Converted from QX url reject. QX reject semantics vary; mapped to Anywhere reject 200 text.
+0, 0, ^https?:\/\/.+\.pangolin-sdk-toutiao\.com\/api\/ad\/union\/sdk\/(geturlads|stats|settings)\/, 2, ""
+0, 0, ^https?:\/\/.+\.pglstatp-toutiao\.com\/.+\/toutiao\.mp4, 2, ""
+0, 0, ^https?:\/\/.+\.(pglstatp-toutiao|pstatp)\.com\/(obj|img)\/(ad-app-package|ad)\/.+, 2, ""
+0, 0, ^https?:\/\/.+\.(pglstatp-toutiao|pstatp)\.com\/(obj|img)\/web\.business\.image\/.+, 2, ""
+0, 0, ^https?:\/\/.+\.(pglstatp-toutiao|pstatp)\.com\/obj\/ad-pattern\/renderer, 2, ""
+0, 0, ^https?:\/\/gurd\.snssdk\.com\/src\/server\/v3\/package, 2, ""
+0, 0, ^https?:\/\/.+\.byteimg.com/tos-cn-i-1yzifmftcy\/(.+)-jpeg\.jpeg, 2, ""
+0, 0, ^https?:\/\/.+\.pstatp\.com\/obj\/mosaic-legacy\/.+\?from\=ad, 2, ""
+0, 0, ^https?:\/\/.+\.pstatp\.com\/bytecom\/resource\/trackurllog\/src\/.+, 2, ""
+0, 0, ^https?:\/\/.+\.snssdk\.com\/video\/play\/1\/toutiao\/.+\/mp4, 2, ""
+0, 0, ^https?:\/\/.+\.snssdk.com\/api\/ad\/.+, 2, ""
+0, 0, ^http:\/\/.+\.byteimg\.com\/ad-app-package, 2, ""
+0, 0, ^http:\/\/.+\.byteimg\.com\/web\.business\.image, 2, ""
+0, 0, ^https?:\/\/.+?\.snssdk\.com\/motor\/operation\/activity\/display\/config\/V2\/, 2, ""
