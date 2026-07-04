@@ -3,7 +3,7 @@
 #!author=Yu9191 occRewrite; converted for AnyWhere
 #!homepage=https://github.com/Yu9191/wloc
 
-name = Apple .WLOC 定位修改
+name = Apple WLOC 定位修改
 hostname = gs-loc.apple.com, gs-loc-cn.apple.com
 
 # response body script: dist/wloc.js
