@@ -1,4 +1,4 @@
-#!name=Apple WLOC 定位修改
+#!name=Apple WLOC
 #!desc=修改 Apple 网络定位返回坐标；由 QX rewrite_local 转换为 AnyWhere MITM
 #!author=Yu9191 occRewrite; converted for AnyWhere
 #!homepage=https://github.com/Yu9191/wloc
